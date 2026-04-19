@@ -1,84 +1,1271 @@
 ---
+/**
+ * ═══════════════════════════════════════════════════════
+ *  GaDev — Landing Page Principal
+ *  Agencia boutique de ingeniería de software
+ *  para el comercio local de Cádiz
+ * ═══════════════════════════════════════════════════════
+ *
+ *  Stack: Astro 6.x · Tailwind CSS v4 · Lucide Icons (CDN)
+ *  Estética: Dark Room + Gradiente "Cádiz Sunset"
+ *  SEO: OpenGraph, Twitter Cards, Schema.org
+ * ═══════════════════════════════════════════════════════
+ */
 
+// ─── Datos Estructurados ─────────────────────────────
+// Se definen en el frontmatter para mantener el HTML limpio
+
+/** Servicios ofrecidos por GaDev */
+const servicios = [
+  {
+    id: "web-apps",
+    titulo: "Aplicaciones Web",
+    descripcion:
+      "Plataformas digitales a medida que transforman la forma en que tu negocio gaditano se conecta con sus clientes. Desde paneles de administración hasta apps progresivas.",
+    icono: "globe",
+    gridClass: "md:col-span-2",
+    acento: "from-[#0077b6] to-[#0096c7]",
+    destacado: true,
+    features: [
+      "Apps progresivas (PWA)",
+      "Paneles de administración",
+      "APIs robustas",
+    ],
+  },
+  {
+    id: "ecommerce",
+    titulo: "E-Commerce Local",
+    descripcion:
+      "Tiendas online con sabor a Cádiz. Vende tus productos al mundo sin perder tu identidad local.",
+    icono: "shopping-bag",
+    gridClass: "",
+    acento: "from-[#0096c7] to-[#48cae4]",
+  },
+  {
+    id: "booking",
+    titulo: "Reservas y Citas",
+    descripcion:
+      "Sistemas de reserva inteligentes para hostelería, salud y servicios profesionales de Cádiz.",
+    icono: "calendar-check",
+    gridClass: "",
+    acento: "from-[#48cae4] to-[#90e0ef]",
+  },
+  {
+    id: "automatizacion",
+    titulo: "Automatización",
+    descripcion:
+      "Eliminamos las tareas repetitivas de tu negocio con flujos de trabajo inteligentes y conectados.",
+    icono: "cpu",
+    gridClass: "",
+    acento: "from-[#ee9b00] to-[#ffb703]",
+  },
+  {
+    id: "seo-local",
+    titulo: "SEO & Presencia Digital",
+    descripcion:
+      "Haz que te encuentren en Cádiz. Posicionamiento local y estrategia digital para crecer.",
+    icono: "search",
+    gridClass: "",
+    acento: "from-[#0077b6] to-[#ee9b00]",
+  },
+  {
+    id: "consultoria",
+    titulo: "Consultoría Tech",
+    descripcion:
+      "Asesoramiento técnico para digitalizar tu negocio con la solución correcta, sin gastar de más.",
+    icono: "lightbulb",
+    gridClass: "md:col-span-2",
+    acento: "from-[#ffb703] to-[#ee9b00]",
+    destacado: true,
+    features: [
+      "Auditoría tecnológica",
+      "Plan de digitalización",
+      "Presupuesto sin sorpresas",
+    ],
+  },
+];
+
+/** Proyectos destacados / Testimonials */
+const proyectos = [
+  {
+    nombre: "Bar El Faro",
+    tipo: "Sistema de Reservas",
+    descripcion:
+      "Digitalización completa del sistema de reservas con carta digital y gestión de mesas en tiempo real.",
+    resultado: "+40% reservas online",
+  },
+  {
+    nombre: "Pescadería Bahía",
+    tipo: "E-Commerce",
+    descripcion:
+      "Tienda online con pedidos a domicilio y gestión de stock fresco para productos del mar gaditano.",
+    resultado: "Ventas x3 en 6 meses",
+  },
+  {
+    nombre: "Clínica Santa María",
+    tipo: "App de Gestión",
+    descripcion:
+      "Plataforma de gestión de citas, historial médico digital y comunicación paciente-doctor.",
+    resultado: "-60% llamadas telefónicas",
+  },
+];
+
+/** Estadísticas clave */
+const stats = [
+  { valor: "100%", label: "Compromiso", prefijo: "+" },
+  { valor: "4", label: "Ingenieros", prefijo: "" },
+  { valor: "∞", label: "Café consumido", prefijo: "" },
+  { valor: "Local", label: "Soluciones de Cádiz", prefijo: "100%" },
+];
+
+/** Links de navegación */
+const navLinks = [
+  { label: "Servicios", href: "#servicios" },
+  { label: "Proyectos", href: "#proyectos" },
+  { label: "Nosotros", href: "#nosotros" },
+  { label: "Contacto", href: "#contacto" },
+];
+
+/** Datos SEO */
+const seo = {
+  title: "GaDev — Ingeniería de Software en Cádiz | Desarrollo Web Local",
+  description:
+    "Agencia boutique de ingeniería de software para el comercio local de Cádiz. Desarrollamos aplicaciones web, e-commerce y soluciones digitales a medida.",
+  url: "https://gadev.es",
+  image: "https://gadev.es/og-image.jpg",
+};
 ---
 
-<html lang="es">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<title>GaDev</title>
-	</head>
-	<body>
-		<main>
-			<h1>GaDev</h1>
-			<p class="subtitle">Digitalizando el comercio de Cádiz. Próximamente.</p>
-		</main>
-		<footer>
-			<a href="mailto:info@gadev.es">info@gadev.es</a>
-		</footer>
-	</body>
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <!-- ─── Meta Base ──────────────────────────────────── -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- ─── SEO ────────────────────────────────────────── -->
+    <title>{seo.title}</title>
+    <meta name="description" content={seo.description} />
+    <meta
+      name="keywords"
+      content="desarrollo web Cádiz, ingeniería software Cádiz, aplicaciones web, e-commerce local, digitalización comercio Cádiz, GaDev"
+    />
+    <meta name="author" content="GaDev" />
+    <link rel="canonical" href={seo.url} />
+
+    <!-- ─── OpenGraph ──────────────────────────────────── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={seo.title} />
+    <meta property="og:description" content={seo.description} />
+    <meta property="og:url" content={seo.url} />
+    <meta property="og:image" content={seo.image} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="GaDev" />
+
+    <!-- ─── Twitter Cards ──────────────────────────────── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={seo.title} />
+    <meta name="twitter:description" content={seo.description} />
+    <meta name="twitter:image" content={seo.image} />
+
+    <!-- ─── Favicon ────────────────────────────────────── -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- ─── Fuentes (Inter de Google Fonts) ─────────────── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ─── Estilos Globales ───────────────────────────── -->
+    <link rel="stylesheet" href="/src/styles/global.css" />
+
+    <!-- ─── Schema.org (JSON-LD) ────────────────────────── -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        name: "GaDev",
+        description: seo.description,
+        url: seo.url,
+        areaServed: {
+          "@type": "City",
+          name: "Cádiz",
+        },
+        serviceType: [
+          "Desarrollo Web",
+          "E-Commerce",
+          "Consultoría Tecnológica",
+        ],
+      })}
+    />
+  </head>
+
+  <body class="relative min-h-screen">
+    <!-- ═══════════════════════════════════════════════════
+         PRELOADER — Scramble text + 000→100 counter
+         ═══════════════════════════════════════════════════ -->
+    <div
+      id="preloader"
+      class="fixed inset-0 z-[60000] flex flex-col items-center justify-center gap-6 transition-opacity duration-500"
+      style="background: #030303;"
+    >
+      <!-- Scramble title -->
+      <div
+        id="pre-title"
+        class="gradient-text text-6xl font-black tracking-tight sm:text-7xl md:text-8xl lg:text-9xl"
+        style="-webkit-text-fill-color: transparent;"
+      >
+        GaDev
+      </div>
+      <!-- Counter -->
+      <span
+        id="pre-num"
+        class="font-mono text-xs tracking-[0.35em] text-white/20"
+      >
+        000
+      </span>
+      <!-- Progress line -->
+      <div class="h-px w-36 overflow-hidden rounded-full bg-white/[0.06]">
+        <div
+          id="pre-line"
+          class="h-full w-0 rounded-full transition-none"
+          style="background: linear-gradient(90deg, #0077b6, #0096c7, #ee9b00);"
+        >
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         GLOWS DE FONDO — Resplandores radiales decorativos
+         ═══════════════════════════════════════════════════ -->
+    <div
+      class="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      aria-hidden="true"
+    >
+      <!-- Glow superior izquierdo (azul oceánico) -->
+      <div
+        class="animate-pulse-glow absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full opacity-40"
+        style="background: radial-gradient(circle, rgba(0,119,182,0.15) 0%, transparent 70%);"
+      ></div>
+      <!-- Glow inferior derecho (ámbar) -->
+      <div
+        class="animate-pulse-glow absolute -right-40 -bottom-40 h-[500px] w-[500px] rounded-full opacity-30"
+        style="background: radial-gradient(circle, rgba(238,155,0,0.12) 0%, transparent 70%); animation-delay: 2s;"
+      ></div>
+      <!-- Glow central sutil -->
+      <div
+        class="absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-15"
+        style="background: radial-gradient(circle, rgba(0,150,199,0.08) 0%, transparent 60%);"
+      ></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         NAVBAR — Con efecto scroll-blur
+         ═══════════════════════════════════════════════════ -->
+    <nav
+      id="navbar"
+      class="fixed top-0 right-0 left-0 z-50 transition-all duration-500"
+      role="navigation"
+      aria-label="Navegación principal"
+    >
+      <div
+        class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8"
+      >
+        <!-- Logo -->
+        <a
+          href="/"
+          class="group flex items-center gap-3"
+          aria-label="GaDev — Inicio"
+        >
+          <img
+            src="/favicon.ico"
+            alt="GaDev Logo"
+            class="h-9 w-9 transition-transform duration-300 group-hover:scale-110"
+            width="36"
+            height="36"
+          />
+          <span class="gradient-text text-xl font-bold tracking-tight"
+            >GaDev</span
+          >
+        </a>
+
+        <!-- Links Desktop -->
+        <div class="hidden items-center gap-8 md:flex">
+          {
+            navLinks.map((link) => (
+              <a
+                href={link.href}
+                class="relative text-sm font-medium text-text-secondary transition-colors duration-300 hover:text-text-primary after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-gradient-to-r after:from-cadiz-ocean after:to-cadiz-amber after:transition-all after:duration-300 hover:after:w-full"
+              >
+                {link.label}
+              </a>
+            ))
+          }
+          <a
+            href="#contacto"
+            class="glass gradient-border rounded-full px-5 py-2 text-sm font-semibold text-text-primary transition-all duration-300 hover:scale-105"
+          >
+            Hablemos
+          </a>
+        </div>
+
+        <!-- Hamburger Mobile -->
+        <button
+          id="mobile-menu-btn"
+          class="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
+          aria-label="Abrir menú de navegación"
+          aria-expanded="false"
+        >
+          <span
+            class="hamburger-line block h-0.5 w-6 rounded-full bg-text-primary transition-all duration-300"
+          ></span>
+          <span
+            class="hamburger-line block h-0.5 w-6 rounded-full bg-text-primary transition-all duration-300"
+          ></span>
+          <span
+            class="hamburger-line block h-0.5 w-4 rounded-full bg-text-primary transition-all duration-300"
+          ></span>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Overlay -->
+      <div
+        id="mobile-menu"
+        class="pointer-events-none fixed inset-0 z-40 flex items-center justify-center opacity-0 transition-all duration-500 md:hidden"
+        style="background: rgba(3,3,3,0.97); backdrop-filter: blur(24px);"
+      >
+        <div class="flex flex-col items-center gap-8">
+          {
+            navLinks.map((link) => (
+              <a
+                href={link.href}
+                class="mobile-nav-link text-3xl font-bold text-text-primary transition-all duration-300 hover:text-cadiz-amber"
+              >
+                {link.label}
+              </a>
+            ))
+          }
+          <a
+            href="#contacto"
+            class="glass gradient-border mt-4 rounded-full px-8 py-3 text-lg font-semibold text-text-primary"
+          >
+            Hablemos
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════
+         HERO SECTION — Mesh Gradient animado de fondo
+         ═══════════════════════════════════════════════════ -->
+    <section
+      id="hero"
+      class="relative flex min-h-screen items-center justify-center overflow-hidden px-6"
+      aria-label="Presentación principal"
+    >
+      <!-- Mesh Gradient de fondo animado -->
+      <div
+        class="animate-mesh-rotate pointer-events-none absolute inset-0 opacity-25"
+        aria-hidden="true"
+      >
+        <div
+          class="absolute top-1/4 left-1/4 h-[50vw] w-[50vw] rounded-full"
+          style="background: radial-gradient(circle, rgba(0,119,182,0.3) 0%, transparent 60%); filter: blur(80px);"
+        >
+        </div>
+        <div
+          class="absolute right-1/4 bottom-1/4 h-[40vw] w-[40vw] rounded-full"
+          style="background: radial-gradient(circle, rgba(238,155,0,0.2) 0%, transparent 60%); filter: blur(80px);"
+        >
+        </div>
+        <div
+          class="absolute top-1/2 left-1/2 h-[30vw] w-[30vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          style="background: radial-gradient(circle, rgba(0,150,199,0.15) 0%, transparent 60%); filter: blur(60px);"
+        >
+        </div>
+      </div>
+
+      <!-- Contenido del Hero -->
+      <div class="relative z-10 mx-auto max-w-5xl text-center">
+        <!-- Badge -->
+        <div
+          class="animate-fade-in-up stagger-1 mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 opacity-0 backdrop-blur-sm"
+        >
+          <span
+            class="inline-block h-2 w-2 animate-pulse rounded-full bg-green-400"
+          ></span>
+          <span class="text-sm font-medium text-text-secondary"
+            >Disponibles para nuevos proyectos</span
+          >
+        </div>
+
+        <!-- Título principal -->
+        <h1
+          class="animate-fade-in-up stagger-2 mb-6 text-4xl leading-tight font-black tracking-tight opacity-0 sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
+        >
+          Ingeniería de software
+          <br />
+          <span class="gradient-text">con acento gaditano</span>
+        </h1>
+
+        <!-- Subtítulo -->
+        <p
+          class="animate-fade-in-up stagger-3 mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-text-secondary opacity-0 md:text-xl"
+        >
+          Somos una agencia boutique que crea soluciones digitales a medida para
+          el comercio local de Cádiz. Tecnología de primer nivel, con el trato
+          cercano de siempre.
+        </p>
+
+        <!-- CTAs -->
+        <div
+          class="animate-fade-in-up stagger-4 flex flex-col items-center justify-center gap-4 opacity-0 sm:flex-row"
+        >
+          <a
+            href="#contacto"
+            id="cta-hero-primary"
+            class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cadiz-ocean/20"
+            style="background: linear-gradient(135deg, #0077b6, #0096c7, #ee9b00);"
+          >
+            <span class="relative z-10">Empezar un proyecto</span>
+            <svg
+              class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+            <!-- Shine effect -->
+            <div
+              class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full"
+            >
+            </div>
+          </a>
+          <a
+            href="#servicios"
+            id="cta-hero-secondary"
+            class="glass gradient-border inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold text-text-primary transition-all duration-300 hover:scale-105"
+          >
+            Ver servicios
+            <svg
+              class="h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 5v14"></path>
+              <path d="m19 12-7 7-7-7"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div
+        class="animate-fade-in-up stagger-6 absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0"
+        aria-hidden="true"
+      >
+        <div class="flex flex-col items-center gap-2">
+          <span
+            class="text-xs font-medium tracking-widest text-text-muted uppercase"
+            >Scroll</span
+          >
+          <div class="h-10 w-6 rounded-full border border-white/10 p-1">
+            <div
+              class="h-2 w-2 animate-bounce rounded-full bg-gradient-to-b from-cadiz-ocean to-cadiz-amber"
+            >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         STATS SECTION — Contadores con animación
+         ═══════════════════════════════════════════════════ -->
+    <section
+      id="nosotros"
+      class="relative z-10 py-20"
+      aria-label="Estadísticas de GaDev"
+    >
+      <div class="mx-auto max-w-6xl px-6 lg:px-8">
+        <div
+          class="glass grid grid-cols-2 gap-6 rounded-3xl p-8 md:grid-cols-4 md:gap-8 md:p-12"
+        >
+          <!-- Stat: Compromiso -->
+          <div
+            class="stat-item flex flex-col items-center text-center"
+            data-animate
+          >
+            <span class="gradient-text mb-2 text-4xl font-black md:text-5xl"
+              >+100%</span
+            >
+            <span class="text-sm font-medium text-text-secondary"
+              >Compromiso</span
+            >
+          </div>
+          <!-- Stat: Ingenieros -->
+          <div
+            class="stat-item flex flex-col items-center text-center"
+            data-animate
+          >
+            <span class="gradient-text mb-2 text-4xl font-black md:text-5xl"
+              >4</span
+            >
+            <span class="text-sm font-medium text-text-secondary"
+              >Ingenieros</span
+            >
+          </div>
+          <!-- Stat: Café -->
+          <div
+            class="stat-item flex flex-col items-center text-center"
+            data-animate
+          >
+            <span class="gradient-text mb-2 text-4xl font-black md:text-5xl"
+              >∞</span
+            >
+            <span class="text-sm font-medium text-text-secondary"
+              >Café consumido</span
+            >
+          </div>
+          <!-- Stat: Soluciones -->
+          <div
+            class="stat-item flex flex-col items-center text-center"
+            data-animate
+          >
+            <span class="gradient-text mb-2 text-4xl font-black md:text-5xl"
+              >100%</span
+            >
+            <span class="text-sm font-medium text-text-secondary"
+              >Soluciones Locales</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         BENTO SERVICES — Grid interactivo de servicios
+         ═══════════════════════════════════════════════════ -->
+    <section
+      id="servicios"
+      class="relative z-10 py-24"
+      aria-label="Nuestros servicios"
+    >
+      <div class="mx-auto max-w-6xl px-6 lg:px-8">
+        <!-- Header de sección -->
+        <div class="mb-16 text-center" data-animate>
+          <span
+            class="inline-block mb-4 text-sm font-semibold tracking-widest text-cadiz-amber uppercase"
+            >Lo que hacemos</span
+          >
+          <h2
+            class="mb-4 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl"
+          >
+            Servicios <span class="gradient-text">a tu medida</span>
+          </h2>
+          <p class="mx-auto max-w-2xl text-text-secondary">
+            Cada negocio gaditano es único. Por eso nuestras soluciones se
+            diseñan desde cero, adaptadas a tus necesidades reales.
+          </p>
+        </div>
+
+        <!-- Bento Grid -->
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {
+            servicios.map((servicio, index) => (
+              <article
+                class={`glow-card group relative cursor-pointer overflow-hidden rounded-2xl p-6 transition-all duration-500 hover:scale-[1.02] md:p-8 ${servicio.gridClass}`}
+                data-glow
+                data-animate
+                id={`servicio-${servicio.id}`}
+                role="article"
+                aria-label={`Servicio: ${servicio.titulo}`}
+              >
+                {/* Spotlight inner glow layer */}
+                <div data-glow aria-hidden="true" />
+                {/* Glow decorativo de fondo */}
+                <div
+                  class={`absolute -right-4 -bottom-4 h-32 w-32 rounded-full bg-gradient-to-br ${servicio.acento} opacity-5 transition-all duration-500 group-hover:opacity-10 group-hover:scale-125`}
+                  aria-hidden="true"
+                />
+
+                {/* Icono con gradiente */}
+                <div
+                  class={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${servicio.acento} p-2.5 shadow-lg transition-transform duration-300 group-hover:scale-110`}
+                >
+                  {/* Flecha genérica — se muestra para todos */}
+                  <svg
+                    class="h-6 w-6 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    {servicio.id === "web-apps" && (
+                      <>
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M2 12h20" />
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                      </>
+                    )}
+                    {servicio.id === "ecommerce" && (
+                      <>
+                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                        <path d="M3 6h18" />
+                        <path d="M16 10a4 4 0 0 1-8 0" />
+                      </>
+                    )}
+                    {servicio.id === "booking" && (
+                      <>
+                        <rect width="18" height="18" x="3" y="4" rx="2" />
+                        <path d="M16 2v4" />
+                        <path d="M8 2v4" />
+                        <path d="M3 10h18" />
+                        <path d="m9 16 2 2 4-4" />
+                      </>
+                    )}
+                    {servicio.id === "automatizacion" && (
+                      <>
+                        <rect width="16" height="16" x="4" y="4" rx="2" />
+                        <rect width="6" height="6" x="9" y="9" rx="1" />
+                        <path d="M15 2v2" />
+                        <path d="M15 20v2" />
+                        <path d="M2 15h2" />
+                        <path d="M2 9h2" />
+                        <path d="M20 15h2" />
+                        <path d="M20 9h2" />
+                        <path d="M9 2v2" />
+                        <path d="M9 20v2" />
+                      </>
+                    )}
+                    {servicio.id === "seo-local" && (
+                      <>
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.3-4.3" />
+                      </>
+                    )}
+                    {servicio.id === "consultoria" && (
+                      <>
+                        <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                        <path d="M9 18h6" />
+                        <path d="M10 22h4" />
+                      </>
+                    )}
+                  </svg>
+                </div>
+
+                {/* Contenido */}
+                <h3 class="mb-2 text-lg font-bold text-text-primary md:text-xl">
+                  {servicio.titulo}
+                </h3>
+                <p class="mb-4 text-sm leading-relaxed text-text-secondary md:text-base">
+                  {servicio.descripcion}
+                </p>
+
+                {/* Feature badges para tarjetas destacadas */}
+                {servicio.destacado && servicio.features && (
+                  <div class="mb-4 flex flex-wrap gap-2">
+                    {servicio.features.map((feature: string) => (
+                      <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-text-secondary">
+                        <svg
+                          class="h-3 w-3 text-cadiz-ocean"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Flecha de acción */}
+                <div class="mt-auto flex items-center gap-1 text-sm font-medium text-cadiz-ocean transition-all duration-300 group-hover:text-cadiz-amber group-hover:gap-2">
+                  <span>Saber más</span>
+                  <svg
+                    class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         PROYECTOS — Casos de éxito
+         ═══════════════════════════════════════════════════ -->
+    <section
+      id="proyectos"
+      class="relative z-10 py-24"
+      aria-label="Proyectos destacados"
+    >
+      <div class="mx-auto max-w-6xl px-6 lg:px-8">
+        <!-- Header de sección -->
+        <div class="mb-16 text-center" data-animate>
+          <span
+            class="inline-block mb-4 text-sm font-semibold tracking-widest text-cadiz-amber uppercase"
+            >Portfolio</span
+          >
+          <h2
+            class="mb-4 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl"
+          >
+            Proyectos que <span class="gradient-text">hablan por sí solos</span>
+          </h2>
+          <p class="mx-auto max-w-2xl text-text-secondary">
+            Negocios reales de Cádiz que ya confían en nuestra tecnología.
+          </p>
+        </div>
+
+        <!-- Grid de Proyectos -->
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {
+            proyectos.map((proyecto, index) => (
+              <article
+                class="glow-card group relative overflow-hidden rounded-2xl p-8 transition-all duration-500 hover:scale-[1.02]"
+                data-glow
+                data-animate
+                role="article"
+                aria-label={`Proyecto: ${proyecto.nombre}`}
+              >
+                {/* Spotlight inner glow layer */}
+                <div data-glow aria-hidden="true" />
+                {/* Tipo badge */}
+                <span class="mb-4 inline-block rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-cadiz-ocean">
+                  {proyecto.tipo}
+                </span>
+
+                {/* Contenido */}
+                <h3 class="mb-2 text-xl font-bold text-text-primary">
+                  {proyecto.nombre}
+                </h3>
+                <p class="mb-6 text-sm leading-relaxed text-text-secondary">
+                  {proyecto.descripcion}
+                </p>
+
+                {/* Resultado */}
+                <div class="flex items-center gap-2 border-t border-white/5 pt-4">
+                  <svg
+                    class="h-5 w-5 text-green-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                    <polyline points="16 7 22 7 22 13" />
+                  </svg>
+                  <span class="text-sm font-semibold text-green-400">
+                    {proyecto.resultado}
+                  </span>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         CONTACT CTA — Invitación a un café
+         ═══════════════════════════════════════════════════ -->
+    <section id="contacto" class="relative z-10 py-24" aria-label="Contacto">
+      <div class="mx-auto max-w-4xl px-6 lg:px-8">
+        <div
+          class="glass gradient-border relative overflow-hidden rounded-3xl p-10 text-center md:p-16"
+          data-animate
+        >
+          <!-- Glow decorativo interior -->
+          <div
+            class="pointer-events-none absolute inset-0 opacity-20"
+            aria-hidden="true"
+            style="background: radial-gradient(ellipse at center, rgba(0,119,182,0.15) 0%, transparent 70%);"
+          >
+          </div>
+
+          <!-- Emoji -->
+          <div class="relative mb-6 text-5xl md:text-6xl" aria-hidden="true">
+            ☕
+          </div>
+
+          <!-- Copy -->
+          <h2
+            class="relative mb-4 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl"
+          >
+            ¿Nos tomamos <span class="gradient-text">un café</span>?
+          </h2>
+          <p
+            class="relative mx-auto mb-8 max-w-xl text-lg leading-relaxed text-text-secondary"
+          >
+            Cuéntanos tu idea mientras disfrutamos de un buen café gaditano. Sin
+            compromisos, sin letra pequeña. Solo una conversación sobre cómo
+            hacer crecer tu negocio.
+          </p>
+
+          <!-- CTAs de contacto -->
+          <div
+            class="relative flex flex-col items-center justify-center gap-4 sm:flex-row"
+          >
+            <a
+              href="mailto:hola@gadev.es"
+              id="cta-contact-email"
+              class="group inline-flex items-center gap-2 overflow-hidden rounded-full px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cadiz-ocean/25"
+              style="background: linear-gradient(135deg, #0077b6, #0096c7, #ee9b00);"
+            >
+              <svg
+                class="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg>
+              <span>hola@gadev.es</span>
+            </a>
+            <a
+              href="https://wa.me/34600000000"
+              id="cta-contact-whatsapp"
+              class="glass gradient-border inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold text-text-primary transition-all duration-300 hover:scale-105"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg
+                class="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                ></path>
+              </svg>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+
+          <!-- Ubicación -->
+          <p
+            class="relative mt-8 flex items-center justify-center gap-2 text-sm text-text-muted"
+          >
+            <svg
+              class="h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
+              ></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Cádiz, España 🇪🇸</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         FOOTER — Minimalista con enlaces sociales
+         ═══════════════════════════════════════════════════ -->
+    <footer
+      class="relative z-10 border-t border-white/5 py-12"
+      role="contentinfo"
+    >
+      <div class="mx-auto max-w-6xl px-6 lg:px-8">
+        <div
+          class="flex flex-col items-center justify-between gap-6 md:flex-row"
+        >
+          <!-- Logo y copyright -->
+          <div class="flex items-center gap-3">
+            <img
+              src="/favicon.ico"
+              alt="GaDev"
+              class="h-7 w-7"
+              width="28"
+              height="28"
+              loading="lazy"
+            />
+            <span class="text-sm text-text-muted">
+              © {new Date().getFullYear()} GaDev. Hecho con
+              <span class="text-red-400" aria-label="amor">♥</span> en Cádiz.
+            </span>
+          </div>
+
+          <!-- Enlaces sociales -->
+          <div class="flex items-center gap-4">
+            <!-- GitHub -->
+            <a
+              href="https://github.com/gadev"
+              class="flex h-10 w-10 items-center justify-center rounded-full text-text-muted transition-all duration-300 hover:bg-white/5 hover:text-text-primary"
+              aria-label="GitHub de GaDev"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg
+                class="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+                ></path>
+                <path d="M9 18c-4.51 2-5-2-7-2"></path>
+              </svg>
+            </a>
+            <!-- LinkedIn -->
+            <a
+              href="https://linkedin.com/company/gadev"
+              class="flex h-10 w-10 items-center justify-center rounded-full text-text-muted transition-all duration-300 hover:bg-white/5 hover:text-text-primary"
+              aria-label="LinkedIn de GaDev"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg
+                class="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                ></path>
+                <rect width="4" height="12" x="2" y="9"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+            <!-- Instagram -->
+            <a
+              href="https://instagram.com/gadev.es"
+              class="flex h-10 w-10 items-center justify-center rounded-full text-text-muted transition-all duration-300 hover:bg-white/5 hover:text-text-primary"
+              aria-label="Instagram de GaDev"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg
+                class="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
+                ></path>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+              </svg>
+            </a>
+            <!-- X / Twitter -->
+            <a
+              href="https://x.com/gadev_es"
+              class="flex h-10 w-10 items-center justify-center rounded-full text-text-muted transition-all duration-300 hover:bg-white/5 hover:text-text-primary"
+              aria-label="X (Twitter) de GaDev"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg
+                class="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════
+         SCRIPTS — Interactividad y animaciones
+         ═══════════════════════════════════════════════════ -->
+    <script>
+      /**
+       * ─── PRELOADER — Scramble "GaDev" + 000→100 ─────
+       * Characters resolve progressively into final text
+       */
+      (function runPreloader() {
+        const CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&!<>/";
+        const preloader = document.getElementById("preloader");
+        const preTitle = document.getElementById("pre-title");
+        const preNum = document.getElementById("pre-num");
+        const preLine = document.getElementById("pre-line");
+        if (!preloader || !preTitle || !preNum || !preLine) return;
+
+        const FINAL_TEXT = "GaDev";
+        const SCRAMBLE_STEPS = 36;
+        const DURATION_MS = 1600;
+        const interval = DURATION_MS / SCRAMBLE_STEPS;
+        let frame = 0;
+
+        // Scramble + counter combined
+        const timer = setInterval(() => {
+          frame++;
+          const progress = frame / SCRAMBLE_STEPS;
+
+          // Scramble text
+          let display = "";
+          const revealed = Math.floor(progress * FINAL_TEXT.length);
+          for (let c = 0; c < FINAL_TEXT.length; c++) {
+            if (c < revealed) {
+              display += FINAL_TEXT[c];
+            } else {
+              display += CHARSET[Math.floor(Math.random() * CHARSET.length)];
+            }
+          }
+          preTitle.textContent = display;
+
+          // Counter 000 → 100
+          const val = Math.round(progress * 100);
+          preNum.textContent = String(val).padStart(3, "0");
+
+          // Progress line
+          preLine.style.width = val + "%";
+
+          if (frame >= SCRAMBLE_STEPS) {
+            clearInterval(timer);
+            preTitle.textContent = FINAL_TEXT;
+            preNum.textContent = "100";
+            preLine.style.width = "100%";
+
+            // Fade out preloader after a tiny pause
+            setTimeout(() => {
+              preloader.style.opacity = "0";
+              preloader.style.pointerEvents = "none";
+
+              // Remove from DOM after fade transition
+              setTimeout(() => {
+                preloader.style.display = "none";
+                // Trigger hero animations
+                document.body.classList.add("preloader-done");
+              }, 500);
+            }, 200);
+          }
+        }, interval);
+      })();
+
+      /**
+       * ─── Spotlight Cards — Pointer tracking ─────────
+       * Updates CSS custom properties with CARD-RELATIVE coords
+       */
+      document.addEventListener("pointermove", (e) => {
+        const cards = Array.from(document.querySelectorAll(".glow-card"));
+        
+        // 1. READ phase (batching reads prevents layout thrashing & lag)
+        const rects = cards.map(card => card.getBoundingClientRect());
+        
+        // 2. WRITE phase
+        const clientX = e.clientX;
+        const clientY = e.clientY;
+        const xp = (clientX / window.innerWidth).toFixed(2);
+        
+        cards.forEach((card, index) => {
+          const rect = rects[index];
+          const x = clientX - rect.left;
+          const y = clientY - rect.top;
+          card.style.setProperty("--x", x.toFixed(2));
+          card.style.setProperty("--y", y.toFixed(2));
+          card.style.setProperty("--xp", xp);
+        });
+      });
+
+      /**
+       * ─── Navbar Scroll-Blur ─────────────────────────
+       * Añade fondo translúcido y blur al hacer scroll
+       */
+      const navbar = document.getElementById("navbar");
+      const handleScroll = () => {
+        if (!navbar) return;
+        if (window.scrollY > 50) {
+          navbar.style.background = "rgba(3, 3, 3, 0.8)";
+          navbar.style.backdropFilter = "blur(20px) saturate(1.8)";
+          navbar.style.borderBottom = "1px solid rgba(255,255,255,0.05)";
+        } else {
+          navbar.style.background = "transparent";
+          navbar.style.backdropFilter = "none";
+          navbar.style.borderBottom = "1px solid transparent";
+        }
+      };
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      handleScroll();
+
+      /**
+       * ─── Mobile Menu Toggle ─────────────────────────
+       */
+      const menuBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      let menuOpen = false;
+
+      menuBtn?.addEventListener("click", () => {
+        menuOpen = !menuOpen;
+        if (mobileMenu) {
+          if (menuOpen) {
+            mobileMenu.style.opacity = "1";
+            mobileMenu.style.pointerEvents = "auto";
+          } else {
+            mobileMenu.style.opacity = "0";
+            mobileMenu.style.pointerEvents = "none";
+          }
+        }
+        menuBtn.setAttribute("aria-expanded", String(menuOpen));
+        // Animación de las líneas del hamburger
+        const lines = menuBtn.querySelectorAll(".hamburger-line");
+        if (menuOpen) {
+          lines[0].style.transform = "translateY(8px) rotate(45deg)";
+          lines[1].style.opacity = "0";
+          lines[2].style.transform = "translateY(-8px) rotate(-45deg)";
+          lines[2].style.width = "24px";
+        } else {
+          lines[0].style.transform = "none";
+          lines[1].style.opacity = "1";
+          lines[2].style.transform = "none";
+          lines[2].style.width = "16px";
+        }
+      });
+
+      // Cerrar menú al hacer click en un link mobile
+      mobileMenu?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          menuOpen = false;
+          if (mobileMenu) {
+            mobileMenu.style.opacity = "0";
+            mobileMenu.style.pointerEvents = "none";
+          }
+          const lines = menuBtn?.querySelectorAll(".hamburger-line");
+          if (lines) {
+            (lines[0] as HTMLElement).style.transform = "none";
+            (lines[1] as HTMLElement).style.opacity = "1";
+            (lines[2] as HTMLElement).style.transform = "none";
+            (lines[2] as HTMLElement).style.width = "16px";
+          }
+          menuBtn?.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      /**
+       * ─── Intersection Observer — Scroll animations ──
+       * Aplica animación fade-in-up a elementos con [data-animate]
+       */
+      const animateOnScroll = () => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("animate-fade-in-up");
+                (entry.target as HTMLElement).style.opacity = "1";
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px",
+          },
+        );
+
+        document.querySelectorAll("[data-animate]").forEach((el, index) => {
+          (el as HTMLElement).style.opacity = "0";
+          (el as HTMLElement).style.animationDelay = `${index * 0.1}s`;
+          observer.observe(el);
+        });
+      };
+
+      // Ejecutar cuando el DOM esté listo
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", animateOnScroll);
+      } else {
+        animateOnScroll();
+      }
+
+      /**
+       * ─── Smooth scroll con offset para la navbar ────
+       */
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", (e) => {
+          const href = (anchor as HTMLAnchorElement).getAttribute("href");
+          if (!href || href === "#") return;
+
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            const offset = 80; // Altura de la navbar
+            const top =
+              target.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top, behavior: "smooth" });
+          }
+        });
+      });
+    </script>
+  </body>
 </html>
-
-<style>
-	* {
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-	}
-
-	html, body {
-		height: 100%;
-	}
-
-	body {
-		background-color: #000000;
-		color: #FFFFFF;
-		font-family: 'Courier New', Courier, monospace;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		min-height: 100vh;
-	}
-
-	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		padding: 2rem;
-	}
-
-	h1 {
-		font-size: 3rem;
-		font-weight: 700;
-		letter-spacing: 0.15em;
-		margin-bottom: 1rem;
-	}
-
-	.subtitle {
-		font-size: 1rem;
-		font-weight: 300;
-		opacity: 0.7;
-		letter-spacing: 0.05em;
-	}
-
-	footer {
-		padding: 2rem;
-	}
-
-	footer a {
-		color: #FFFFFF;
-		text-decoration: none;
-		font-size: 0.85rem;
-		opacity: 0.5;
-		transition: opacity 0.3s ease;
-	}
-
-	footer a:hover {
-		opacity: 1;
-	}
-</style>
