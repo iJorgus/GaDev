@@ -1,0 +1,84 @@
+---
+
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<title>GaDev</title>
+	</head>
+	<body>
+		<main>
+			<h1>GaDev</h1>
+			<p class="subtitle">Digitalizando el comercio de Cádiz. Próximamente.</p>
+		</main>
+		<footer>
+			<a href="mailto:info@gadev.es">info@gadev.es</a>
+		</footer>
+	</body>
+</html>
+
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html, body {
+		height: 100%;
+	}
+
+	body {
+		background-color: #000000;
+		color: #FFFFFF;
+		font-family: 'Courier New', Courier, monospace;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		min-height: 100vh;
+	}
+
+	main {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		padding: 2rem;
+	}
+
+	h1 {
+		font-size: 3rem;
+		font-weight: 700;
+		letter-spacing: 0.15em;
+		margin-bottom: 1rem;
+	}
+
+	.subtitle {
+		font-size: 1rem;
+		font-weight: 300;
+		opacity: 0.7;
+		letter-spacing: 0.05em;
+	}
+
+	footer {
+		padding: 2rem;
+	}
+
+	footer a {
+		color: #FFFFFF;
+		text-decoration: none;
+		font-size: 0.85rem;
+		opacity: 0.5;
+		transition: opacity 0.3s ease;
+	}
+
+	footer a:hover {
+		opacity: 1;
+	}
+</style>
