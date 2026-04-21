@@ -1,0 +1,143 @@
+---
+// src/components/Hero.astro
+import CatedralCanvas from "./CatedralCanvas.astro";
+---
+
+<section
+  id="hero"
+  class="relative flex min-h-screen flex-col lg:flex-row items-center justify-between overflow-hidden px-6 lg:px-12 bg-black"
+  aria-label="Presentación principal"
+>
+  <!-- Mesh Gradient de fondo animado -->
+  <div
+    class="animate-mesh-rotate pointer-events-none absolute inset-0 opacity-25"
+    aria-hidden="true"
+  >
+    <div
+      class="absolute top-1/4 left-1/4 h-[50vw] w-[50vw] rounded-full"
+      style="background: radial-gradient(circle, rgba(0,119,182,0.3) 0%, transparent 60%); filter: blur(80px);"
+    >
+    </div>
+    <div
+      class="absolute right-1/4 bottom-1/4 h-[40vw] w-[40vw] rounded-full"
+      style="background: radial-gradient(circle, rgba(238,155,0,0.2) 0%, transparent 60%); filter: blur(80px);"
+    >
+    </div>
+    <div
+      class="absolute top-1/2 left-1/2 h-[30vw] w-[30vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
+      style="background: radial-gradient(circle, rgba(0,150,199,0.15) 0%, transparent 60%); filter: blur(60px);"
+    >
+    </div>
+  </div>
+
+  <!-- PARTE IZQUIERDA: El Canvas 3D de la Catedral -->
+  <div
+    class="animate-fade-in-up stagger-5 opacity-0 relative z-10 w-full h-[50vh] lg:w-[55%] lg:h-screen mt-20 lg:mt-0"
+  >
+    <CatedralCanvas />
+  </div>
+
+  <!-- PARTE DERECHA: Contenido de Texto -->
+  <div
+    class="relative z-20 w-full lg:w-[45%] text-center lg:text-left pb-20 lg:pb-0"
+  >
+    <!-- Badge -->
+    <div
+      class="animate-fade-in-up stagger-1 mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 opacity-0 backdrop-blur-sm"
+    >
+      <span class="inline-block h-2 w-2 animate-pulse rounded-full bg-green-400"
+      ></span>
+      <span class="text-sm font-medium text-text-secondary"
+        >Disponibles para nuevos proyectos</span
+      >
+    </div>
+
+    <!-- Título principal -->
+    <h1
+      class="animate-fade-in-up stagger-2 mb-6 text-4xl leading-tight font-black tracking-tight opacity-0 sm:text-5xl md:text-6xl lg:text-7xl"
+    >
+      Ingeniería de software
+      <br />
+      <span class="gradient-text">con acento gaditano</span>
+    </h1>
+
+    <!-- Subtítulo -->
+    <p
+      class="animate-fade-in-up stagger-3 mb-10 max-w-xl mx-auto lg:mx-0 text-lg leading-relaxed text-text-secondary opacity-0 md:text-xl"
+    >
+      Somos una agencia boutique que crea soluciones digitales a medida para el
+      comercio local de Cádiz. Tecnología de primer nivel, con el trato cercano
+      de siempre.
+    </p>
+
+    <!-- CTAs -->
+    <div
+      class="animate-fade-in-up stagger-4 flex flex-col items-center lg:items-start justify-center lg:justify-start gap-4 opacity-0 sm:flex-row"
+    >
+      <a
+        href="#contacto"
+        id="cta-hero-primary"
+        class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cadiz-ocean/20"
+        style="background: linear-gradient(135deg, #0077b6, #0096c7, #ee9b00);"
+      >
+        <span class="relative z-10">Empezar un proyecto</span>
+        <svg
+          class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+        <div
+          class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full"
+        >
+        </div>
+      </a>
+      <a
+        href="#servicios"
+        id="cta-hero-secondary"
+        class="glass gradient-border inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold text-text-primary transition-all duration-300 hover:scale-105"
+      >
+        Ver servicios
+        <svg
+          class="h-4 w-4"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 5v14"></path>
+          <path d="m19 12-7 7-7-7"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div
+    class="animate-fade-in-up stagger-6 absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 z-20"
+    aria-hidden="true"
+  >
+    <div class="flex flex-col items-center gap-2">
+      <span
+        class="text-xs font-medium tracking-widest text-text-muted uppercase"
+        >Scroll</span
+      >
+      <div class="h-10 w-6 rounded-full border border-white/10 p-1">
+        <div
+          class="h-2 w-2 animate-bounce rounded-full bg-gradient-to-b from-cadiz-ocean to-cadiz-amber"
+        >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

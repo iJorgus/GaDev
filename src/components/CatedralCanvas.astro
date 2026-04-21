@@ -1,0 +1,171 @@
+---
+// src/components/CatedralCanvas.astro
+---
+
+<div
+  id="canvas-container"
+  class="relative w-full h-full cursor-crosshair flex items-center justify-center"
+>
+  <canvas id="catedral-canvas" class="w-full h-full block"></canvas>
+</div>
+
+<script>
+  import * as THREE from "three";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("canvas-container");
+    const canvas = document.getElementById(
+      "catedral-canvas",
+    ) as HTMLCanvasElement;
+
+    if (!container || !canvas) return;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      container.clientWidth / container.clientHeight,
+      0.1,
+      1000,
+    );
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+    });
+
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    let points: THREE.Points;
+    let basePositions: Float32Array;
+
+    const loader = new THREE.TextureLoader();
+    loader.load("/img/catedralhero.png", (texture: THREE.Texture) => {
+      const img = texture.image as HTMLImageElement;
+      const canvasHidden = document.createElement("canvas");
+      const ctx = canvasHidden.getContext("2d")!;
+
+      canvasHidden.width = img.width;
+      canvasHidden.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      const imgData = ctx.getImageData(
+        0,
+        0,
+        canvasHidden.width,
+        canvasHidden.height,
+      ).data;
+      const vertices = [];
+      const skip = 3;
+
+      for (let y = 0; y < img.height; y += skip) {
+        for (let x = 0; x < img.width; x += skip) {
+          const index = (y * img.width + x) * 4;
+          const r = imgData[index];
+          const a = imgData[index + 3];
+
+          if (r > 100 && a > 100) {
+            const posX = (x - img.width / 2) / 85;
+            const posY = -(y - img.height / 2) / 85;
+            const posZ = (Math.random() - 0.5) * 0.2;
+            vertices.push(posX, posY, posZ);
+          }
+        }
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(vertices, 3),
+      );
+      basePositions = new Float32Array(vertices);
+
+      const material = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.015,
+        transparent: true,
+        opacity: 0.85,
+        blending: THREE.AdditiveBlending,
+      });
+
+      points = new THREE.Points(geometry, material);
+      points.position.set(0, -0.2, 0);
+      scene.add(points);
+      camera.position.z = 13;
+    });
+
+    // Lógica del ratón
+    let mouseX = -1000;
+    let mouseY = -1000;
+
+    container.addEventListener("mousemove", (event) => {
+      const rect = container.getBoundingClientRect();
+      mouseX = ((event.clientX - rect.left) / container.clientWidth) * 2 - 1;
+      mouseY = -((event.clientY - rect.top) / container.clientHeight) * 2 + 1;
+    });
+
+    container.addEventListener("mouseleave", () => {
+      mouseX = -1000;
+      mouseY = -1000;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      if (points && basePositions) {
+        const vector = new THREE.Vector3(mouseX, mouseY, 0.5);
+        vector.unproject(camera);
+        const dir = vector.sub(camera.position).normalize();
+        const distance = -camera.position.z / dir.z;
+        const mouse3D = camera.position
+          .clone()
+          .add(dir.multiplyScalar(distance));
+
+        mouse3D.x -= points.position.x;
+        mouse3D.y -= points.position.y;
+
+        const positions = points.geometry.attributes.position
+          .array as Float32Array;
+
+        for (let i = 0; i < positions.length; i += 3) {
+          const baseX = basePositions[i];
+          const baseY = basePositions[i + 1];
+          const baseZ = basePositions[i + 2];
+
+          let px = positions[i];
+          let py = positions[i + 1];
+          let pz = positions[i + 2];
+
+          const dx = px - mouse3D.x;
+          const dy = py - mouse3D.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const magnetRadius = 1.5;
+
+          if (dist < magnetRadius) {
+            const force = Math.pow((magnetRadius - dist) / magnetRadius, 2);
+            px += (dx / dist) * force * 0.1;
+            py += (dy / dist) * force * 0.1;
+            pz += force * 0.15;
+          }
+
+          px += (baseX - px) * 0.1;
+          py += (baseY - py) * 0.1;
+          pz += (baseZ - pz) * 0.1;
+
+          positions[i] = px;
+          positions[i + 1] = py;
+          positions[i + 2] = pz;
+        }
+        points.geometry.attributes.position.needsUpdate = true;
+      }
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener("resize", () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+  });
+</script>
