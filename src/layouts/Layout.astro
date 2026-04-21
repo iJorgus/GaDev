@@ -1,0 +1,206 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════
+ *  Layout.astro — Shell HTML reutilizable
+ *  Contiene <head> con SEO, fuentes, vendor scripts
+ *  y scripts globales de interactividad
+ * ═══════════════════════════════════════════════════════
+ */
+
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  url: string;
+  image: string;
+}
+
+const { title, description, url, image } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <!-- ─── Meta Base ──────────────────────────────────── -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- ─── SEO ────────────────────────────────────────── -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="desarrollo web Cádiz, ingeniería software Cádiz, aplicaciones web, e-commerce local, digitalización comercio Cádiz, GaDev"
+    />
+    <meta name="author" content="GaDev" />
+    <link rel="canonical" href={url} />
+
+    <!-- ─── OpenGraph ──────────────────────────────────── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={image} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="GaDev" />
+
+    <!-- ─── Twitter Cards ──────────────────────────────── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <!-- ─── Favicon ────────────────────────────────────── -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- ─── Fuentes (Inter de Google Fonts) ─────────────── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ─── Estilos Globales (Importados en Frontmatter) ── -->
+
+    <!-- ─── Vendor Scripts (GSAP & Lenis) ────────────────── -->
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    ></script>
+    <script is:inline
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+    ></script>
+    <script is:inline
+      src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"
+    ></script>
+
+    <!-- ─── Schema.org (JSON-LD) ────────────────────────── -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        name: "GaDev",
+        description: description,
+        url: url,
+        areaServed: {
+          "@type": "City",
+          name: "Cádiz",
+        },
+        serviceType: [
+          "Desarrollo Web",
+          "E-Commerce",
+          "Consultoría Tecnológica",
+        ],
+      })}
+    />
+  </head>
+
+  <body class="relative min-h-screen">
+    <slot />
+
+    <!-- ═══════════════════════════════════════════════════
+        SCRIPTS GLOBALES — Interactividad compartida
+        ═══════════════════════════════════════════════════ -->
+    <script>
+      /**
+       * ─── Spotlight Cards — Pointer tracking ─────────
+       * Updates CSS custom properties with CARD-RELATIVE coords
+       */
+      document.addEventListener("pointermove", (e) => {
+        const cards = Array.from(document.querySelectorAll(".glow-card"));
+
+        // 1. READ phase (batching reads prevents layout thrashing & lag)
+        const rects = cards.map((card) => card.getBoundingClientRect());
+
+        // 2. WRITE phase
+        const clientX = e.clientX;
+        const clientY = e.clientY;
+        const xp = (clientX / window.innerWidth).toFixed(2);
+
+        cards.forEach((card, index) => {
+          const htmlCard = card as HTMLElement;
+          const rect = rects[index];
+          const x = clientX - rect.left;
+          const y = clientY - rect.top;
+          htmlCard.style.setProperty("--x", x.toFixed(2));
+          htmlCard.style.setProperty("--y", y.toFixed(2));
+          htmlCard.style.setProperty("--xp", xp);
+        });
+      });
+
+      /**
+       * ─── Intersection Observer — Scroll animations ──
+       * Aplica animación fade-in-up a elementos con [data-animate]
+       */
+      const animateOnScroll = () => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("animate-fade-in-up");
+                (entry.target as HTMLElement).style.opacity = "1";
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px",
+          },
+        );
+
+        document.querySelectorAll("[data-animate]").forEach((el, index) => {
+          (el as HTMLElement).style.opacity = "0";
+          (el as HTMLElement).style.animationDelay = `${index * 0.1}s`;
+          observer.observe(el);
+        });
+      };
+
+      // Ejecutar cuando el DOM esté listo
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", animateOnScroll);
+      } else {
+        animateOnScroll();
+      }
+
+      /**
+       * ─── Smooth scroll con offset para la navbar ────
+       */
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", (e) => {
+          const href = anchor.getAttribute("href");
+          if (!href || href === "#") return;
+
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            const offset = 80; // Altura de la navbar
+            const top =
+              target.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top, behavior: "smooth" });
+          }
+        });
+      });
+
+      /**
+       * ─── GSAP & LENIS SETUP ───────────────────────────
+       */
+      // Inicializar Lenis (Global Smooth Scroll)
+      // Usamos window.Lenis ya que lo cargamos vía CDN
+      if (typeof window !== "undefined" && (window as any).Lenis) {
+        const lenis = new (window as any).Lenis({
+          duration: 1.2,
+          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        });
+        function raf(time: number) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+      }
+    </script>
+  </body>
+</html>

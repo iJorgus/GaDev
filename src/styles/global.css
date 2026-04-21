@@ -225,10 +225,23 @@ body {
 
 /* ─── Utility: Gradient Text ──────────────────────── */
 .gradient-text {
-  background: linear-gradient(135deg, var(--color-cadiz-ocean), var(--color-cadiz-sky), var(--color-cadiz-amber));
+  background: linear-gradient(
+    135deg,
+    var(--color-cadiz-ocean),
+    var(--color-cadiz-sky),
+    var(--color-cadiz-amber),
+    var(--color-cadiz-ocean)
+  );
+  background-size: 300% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: gradient-shift 8s linear infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
 }
 
 /* ─── Utility: Gradient Border ────────────────────── */

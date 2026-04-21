@@ -1,0 +1,186 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════
+ *  Navbar.astro — Navegación principal con scroll-blur
+ *  y menú mobile hamburger
+ * ═══════════════════════════════════════════════════════
+ */
+
+/** Links de navegación */
+const navLinks = [
+  { label: "Servicios", href: "#servicios" },
+  { label: "Proyectos", href: "#proyectos" },
+  { label: "Nosotros", href: "#nosotros" },
+  { label: "Contacto", href: "#contacto" },
+];
+---
+
+<nav
+  id="navbar"
+  class="fixed top-0 right-0 left-0 z-50 transition-all duration-500"
+  role="navigation"
+  aria-label="Navegación principal"
+>
+  <div
+    class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8"
+  >
+    <!-- Logo -->
+    <a
+      href="/"
+      class="group flex items-center gap-3"
+      aria-label="GaDev — Inicio"
+    >
+      <img
+        src="/favicon.ico"
+        alt="GaDev Logo"
+        class="h-9 w-9 transition-transform duration-300 group-hover:scale-110"
+        width="36"
+        height="36"
+      />
+      <span class="gradient-text text-xl font-bold tracking-tight"
+        >GaDev</span
+      >
+    </a>
+
+    <!-- Links Desktop -->
+    <div class="hidden items-center gap-8 md:flex">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="relative text-sm font-medium text-text-secondary transition-colors duration-300 hover:text-text-primary after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-gradient-to-r after:from-cadiz-ocean after:to-cadiz-amber after:transition-all after:duration-300 hover:after:w-full"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href="#contacto"
+        class="glass gradient-border rounded-full px-5 py-2 text-sm font-semibold text-text-primary transition-all duration-300 hover:scale-105"
+      >
+        Hablemos
+      </a>
+    </div>
+
+    <!-- Hamburger Mobile -->
+    <button
+      id="mobile-menu-btn"
+      class="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
+      aria-label="Abrir menú de navegación"
+      aria-expanded="false"
+    >
+      <span
+        class="hamburger-line block h-0.5 w-6 rounded-full bg-text-primary transition-all duration-300"
+      ></span>
+      <span
+        class="hamburger-line block h-0.5 w-6 rounded-full bg-text-primary transition-all duration-300"
+      ></span>
+      <span
+        class="hamburger-line block h-0.5 w-4 rounded-full bg-text-primary transition-all duration-300"
+      ></span>
+    </button>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div
+    id="mobile-menu"
+    class="pointer-events-none fixed inset-0 z-40 flex items-center justify-center opacity-0 transition-all duration-500 md:hidden"
+    style="background: rgba(3,3,3,0.97); backdrop-filter: blur(24px);"
+  >
+    <div class="flex flex-col items-center gap-8">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="mobile-nav-link text-3xl font-bold text-text-primary transition-all duration-300 hover:text-cadiz-amber"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href="#contacto"
+        class="glass gradient-border mt-4 rounded-full px-8 py-3 text-lg font-semibold text-text-primary"
+      >
+        Hablemos
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  /**
+   * ─── Navbar Scroll-Blur ─────────────────────────
+   * Añade fondo translúcido y blur al hacer scroll
+   */
+  const navbar = document.getElementById("navbar");
+  const handleScroll = () => {
+    if (!navbar) return;
+    if (window.scrollY > 50) {
+      navbar.style.background = "rgba(3, 3, 3, 0.8)";
+      navbar.style.backdropFilter = "blur(20px) saturate(1.8)";
+      navbar.style.borderBottom = "1px solid rgba(255,255,255,0.05)";
+    } else {
+      navbar.style.background = "transparent";
+      navbar.style.backdropFilter = "none";
+      navbar.style.borderBottom = "1px solid transparent";
+    }
+  };
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  handleScroll();
+
+  /**
+   * ─── Mobile Menu Toggle ─────────────────────────
+   */
+  const menuBtn = document.getElementById("mobile-menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+  let menuOpen = false;
+
+  menuBtn?.addEventListener("click", () => {
+    menuOpen = !menuOpen;
+    if (mobileMenu) {
+      if (menuOpen) {
+        mobileMenu.style.opacity = "1";
+        mobileMenu.style.pointerEvents = "auto";
+      } else {
+        mobileMenu.style.opacity = "0";
+        mobileMenu.style.pointerEvents = "none";
+      }
+    }
+    menuBtn.setAttribute("aria-expanded", String(menuOpen));
+    // Animación de las líneas del hamburger
+    const lines = menuBtn.querySelectorAll(".hamburger-line");
+    if (menuOpen) {
+      (lines[0] as HTMLElement).style.transform =
+        "translateY(8px) rotate(45deg)";
+      (lines[1] as HTMLElement).style.opacity = "0";
+      (lines[2] as HTMLElement).style.transform =
+        "translateY(-8px) rotate(-45deg)";
+      (lines[2] as HTMLElement).style.width = "24px";
+    } else {
+      (lines[0] as HTMLElement).style.transform = "none";
+      (lines[1] as HTMLElement).style.opacity = "1";
+      (lines[2] as HTMLElement).style.transform = "none";
+      (lines[2] as HTMLElement).style.width = "16px";
+    }
+  });
+
+  // Cerrar menú al hacer click en un link mobile
+  mobileMenu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      menuOpen = false;
+      if (mobileMenu) {
+        mobileMenu.style.opacity = "0";
+        mobileMenu.style.pointerEvents = "none";
+      }
+      const lines = menuBtn?.querySelectorAll(".hamburger-line");
+      if (lines) {
+        (lines[0] as HTMLElement).style.transform = "none";
+        (lines[1] as HTMLElement).style.opacity = "1";
+        (lines[2] as HTMLElement).style.transform = "none";
+        (lines[2] as HTMLElement).style.width = "16px";
+      }
+      menuBtn?.setAttribute("aria-expanded", "false");
+    });
+  });
+</script>

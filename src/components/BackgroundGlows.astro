@@ -1,0 +1,31 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════
+ *  BackgroundGlows.astro — Resplandores radiales decorativos
+ * ═══════════════════════════════════════════════════════
+ */
+---
+
+<div
+  class="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+  aria-hidden="true"
+>
+  <!-- Glow superior izquierdo (azul oceánico) -->
+  <div
+    class="animate-pulse-glow absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full opacity-40"
+    style="background: radial-gradient(circle, rgba(0,119,182,0.15) 0%, transparent 70%);"
+  >
+  </div>
+  <!-- Glow inferior derecho (ámbar) -->
+  <div
+    class="animate-pulse-glow absolute -right-40 -bottom-40 h-[500px] w-[500px] rounded-full opacity-30"
+    style="background: radial-gradient(circle, rgba(238,155,0,0.12) 0%, transparent 70%); animation-delay: 2s;"
+  >
+  </div>
+  <!-- Glow central sutil -->
+  <div
+    class="absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-15"
+    style="background: radial-gradient(circle, rgba(0,150,199,0.08) 0%, transparent 60%);"
+  >
+  </div>
+</div>

@@ -1,0 +1,104 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════
+ *  Preloader.astro — Scramble text + 000→100 counter
+ * ═══════════════════════════════════════════════════════
+ */
+---
+
+<div
+  id="preloader"
+  class="fixed inset-0 z-[60000] flex flex-col items-center justify-center gap-6 transition-opacity duration-500"
+  style="background: #030303;"
+>
+  <!-- Scramble title -->
+  <div
+    id="pre-title"
+    class="gradient-text text-6xl font-black tracking-tight sm:text-7xl md:text-8xl lg:text-9xl"
+    style="-webkit-text-fill-color: transparent;"
+  >
+    GaDev
+  </div>
+  <!-- Counter -->
+  <span
+    id="pre-num"
+    class="font-mono text-xs tracking-[0.35em] text-white/20"
+  >
+    000
+  </span>
+  <!-- Progress line -->
+  <div class="h-px w-36 overflow-hidden rounded-full bg-white/[0.06]">
+    <div
+      id="pre-line"
+      class="h-full w-0 rounded-full transition-none"
+      style="background: linear-gradient(90deg, #0077b6, #0096c7, #ee9b00);"
+    >
+    </div>
+  </div>
+</div>
+
+<script>
+  /**
+   * ─── PRELOADER — Scramble "GaDev" + 000→100 ─────
+   * Characters resolve progressively into final text
+   */
+  (function runPreloader() {
+    const CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&!</>";
+    const preloader = document.getElementById("preloader");
+    const preTitle = document.getElementById("pre-title");
+    const preNum = document.getElementById("pre-num");
+    const preLine = document.getElementById("pre-line");
+    if (!preloader || !preTitle || !preNum || !preLine) return;
+
+    const FINAL_TEXT = "GaDev";
+    const SCRAMBLE_STEPS = 36;
+    const DURATION_MS = 1600;
+    const interval = DURATION_MS / SCRAMBLE_STEPS;
+    let frame = 0;
+
+    // Scramble + counter combined
+    const timer = setInterval(() => {
+      frame++;
+      const progress = frame / SCRAMBLE_STEPS;
+
+      // Scramble text
+      let display = "";
+      const revealed = Math.floor(progress * FINAL_TEXT.length);
+      for (let c = 0; c < FINAL_TEXT.length; c++) {
+        if (c < revealed) {
+          display += FINAL_TEXT[c];
+        } else {
+          display += CHARSET[Math.floor(Math.random() * CHARSET.length)];
+        }
+      }
+      preTitle.textContent = display;
+
+      // Counter 000 → 100
+      const val = Math.round(progress * 100);
+      preNum.textContent = String(val).padStart(3, "0");
+
+      // Progress line
+      preLine.style.width = val + "%";
+
+      if (frame >= SCRAMBLE_STEPS) {
+        clearInterval(timer);
+        preTitle.textContent = FINAL_TEXT;
+        preNum.textContent = "100";
+        preLine.style.width = "100%";
+
+        // Fade out preloader after a tiny pause
+        setTimeout(() => {
+          preloader.style.opacity = "0";
+          preloader.style.pointerEvents = "none";
+
+          // Remove from DOM after fade transition
+          setTimeout(() => {
+            preloader.style.display = "none";
+            // Trigger hero animations
+            document.body.classList.add("preloader-done");
+          }, 500);
+        }, 200);
+      }
+    }, interval);
+  })();
+</script>

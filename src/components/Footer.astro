@@ -1,0 +1,190 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════
+ *  Footer.astro — Footer Reveal (Apple Creative Style)
+ *  con reloj digital, GSAP staggered text y magnetic items
+ * ═══════════════════════════════════════════════════════
+ */
+---
+
+<footer
+  id="reveal-footer"
+  class="fixed bottom-0 left-0 right-0 z-0 flex h-screen max-h-[700px] flex-col justify-between bg-[#080808] px-8 py-16 md:px-12 md:py-24"
+  role="contentinfo"
+>
+  <!-- Top Row: Reloj & Coordenadas -->
+  <div
+    class="flex items-start justify-between font-mono text-xs uppercase leading-relaxed tracking-widest text-white/40 sm:text-sm"
+  >
+    <div
+      id="footer-clock"
+      class="magnetic-item transition-all duration-300 hover:text-white"
+    >
+      00:00:00
+    </div>
+    <div
+      class="magnetic-item transition-all duration-300 hover:text-white text-right"
+    >
+      <span class="animate-pulse">●</span> 36.5271° N<br />6.2886° W
+    </div>
+  </div>
+
+  <!-- Centro: CTA + Email -->
+  <div
+    class="flex flex-1 flex-col items-center justify-center text-center py-10"
+  >
+    <h2
+      id="footer-cta"
+      class="mb-6 max-w-5xl overflow-hidden text-4xl font-light tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl [text-wrap:balance]"
+    >
+      Lleva tu negocio al siguiente nivel.
+    </h2>
+    <a
+      href="mailto:info@gadev.es"
+      class="magnetic-item group relative text-2xl font-medium text-[#0096c7] transition-colors duration-500 hover:text-white md:text-3xl"
+    >
+      <span>info@gadev.es</span>
+      <span
+        class="absolute -bottom-2 left-0 h-px w-0 bg-white transition-all duration-500 group-hover:w-full"
+      ></span>
+    </a>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div
+    class="flex flex-col items-center justify-between gap-6 border-t border-white/5 pt-8 text-sm text-white/40 md:flex-row md:text-base"
+  >
+    <div class="flex items-center gap-3">
+      <img
+        src="/favicon.ico"
+        alt="GaDev Logo"
+        class="h-6 w-6 opacity-60 grayscale"
+      />
+      <span>© {new Date().getFullYear()} GaDev.</span>
+    </div>
+
+    <div class="flex gap-6 md:gap-10">
+      <a
+        href="#servicios"
+        class="magnetic-item transition-colors hover:text-white"
+        >Servicios</a
+      >
+      <a
+        href="#proyectos"
+        class="magnetic-item transition-colors hover:text-white"
+        >Proyectos</a
+      >
+      <a
+        href="#contacto"
+        class="magnetic-item transition-colors hover:text-white">Contacto</a
+      >
+    </div>
+
+    <div>Hecho con arte en Cádiz</div>
+  </div>
+</footer>
+
+<script>
+  // ─── REVEAL FOOTER HEIGHT MARGIN Ajuste (Crucial)
+  const mainContent = document.getElementById("main-content");
+  const revealFooter = document.getElementById("reveal-footer");
+  function updateFooterReveal() {
+    if (mainContent && revealFooter) {
+      mainContent.style.marginBottom = `${revealFooter.offsetHeight}px`;
+    }
+  }
+  updateFooterReveal();
+  window.addEventListener("resize", updateFooterReveal);
+  // Fallbacks por si webfonts cambian la altura o se ejecuta antes de tiempo
+  document.addEventListener("DOMContentLoaded", updateFooterReveal);
+  window.addEventListener("load", updateFooterReveal);
+  setTimeout(updateFooterReveal, 1000);
+
+  // Sincronizar ScrollTrigger con Lenis para animaciones
+  try {
+    const gsap = (window as any).gsap;
+    const ScrollTrigger = (window as any).ScrollTrigger;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ─── STAGGERED TEXT SPLIT ("Lleva tu negocio al siguiente nivel.")
+    const footerCta = document.getElementById("footer-cta");
+    if (footerCta) {
+      const text = footerCta.innerText;
+      footerCta.innerHTML = "";
+      // Partimos string en spans manualmente
+      text.split("").forEach((char) => {
+        const span = document.createElement("span");
+        span.style.display = "inline-block";
+        span.innerText = char === " " ? "\u00A0" : char;
+        footerCta.appendChild(span);
+      });
+
+      gsap.fromTo(
+        footerCta.children,
+        { y: 120, opacity: 0, rotateZ: 5 },
+        {
+          y: 0,
+          opacity: 1,
+          rotateZ: 0,
+          stagger: 0.02,
+          duration: 1.2,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: revealFooter,
+            start: "top 80%", // Se activa cuando se revela el 20% del footer
+            end: "bottom bottom",
+            toggleActions: "play none none reverse",
+          },
+        },
+      );
+    }
+
+    // ─── MAGNETIC ITEMS EFFECT (Optimized)
+    const magneticItems = document.querySelectorAll(".magnetic-item");
+
+    magneticItems.forEach((el) => {
+      // Le decimos que rect puede ser un DOMRect o nulo
+      let rect: DOMRect | null = null;
+
+      el.addEventListener("mouseenter", () => {
+        rect = el.getBoundingClientRect();
+      });
+
+      // Le decimos que la 'e' es un MouseEvent
+      el.addEventListener("mousemove", (e: Event) => {
+        const mouseEvent = e as MouseEvent;
+        if (!rect) rect = el.getBoundingClientRect();
+
+        const x = (mouseEvent.clientX - rect.left - rect.width / 2) * 0.4;
+        const y = (mouseEvent.clientY - rect.top - rect.height / 2) * 0.4;
+        gsap.to(el, { x, y, duration: 0.4, ease: "power2.out" });
+      });
+
+      el.addEventListener("mouseleave", () => {
+        rect = null;
+        gsap.to(el, {
+          x: 0,
+          y: 0,
+          duration: 0.8,
+          ease: "elastic.out(1, 0.3)",
+        });
+      });
+    });
+  } catch (err) {
+    console.warn(
+      "GSAP/ScrollTrigger no cargado completamente todavía",
+      err,
+    );
+  }
+
+  // ─── DIGITAL CLOCK TERMINAL EFFECT
+  const clockEl = document.getElementById("footer-clock");
+  if (clockEl) {
+    setInterval(() => {
+      const d = new Date();
+      const format = (n: number) => String(n).padStart(2, "0");
+      clockEl.innerText = `${format(d.getHours())}:${format(d.getMinutes())}:${format(d.getSeconds())}`;
+    }, 1000);
+  }
+</script>

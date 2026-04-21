@@ -1,0 +1,108 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════
+ *  Projects.astro — Casos de éxito / Portfolio
+ * ═══════════════════════════════════════════════════════
+ */
+
+/** Proyectos destacados */
+const proyectos = [
+  {
+    nombre: "Bar El Faro",
+    tipo: "Sistema de Reservas",
+    descripcion:
+      "Digitalización completa del sistema de reservas con carta digital y gestión de mesas en tiempo real.",
+    resultado: "+40% reservas online",
+  },
+  {
+    nombre: "Pescadería Bahía",
+    tipo: "E-Commerce",
+    descripcion:
+      "Tienda online con pedidos a domicilio y gestión de stock fresco para productos del mar gaditano.",
+    resultado: "Ventas x3 en 6 meses",
+  },
+  {
+    nombre: "Clínica Santa María",
+    tipo: "App de Gestión",
+    descripcion:
+      "Plataforma de gestión de citas, historial médico digital y comunicación paciente-doctor.",
+    resultado: "-60% llamadas telefónicas",
+  },
+];
+---
+
+<section
+  id="proyectos"
+  class="relative z-10 py-24"
+  aria-label="Proyectos destacados"
+>
+  <div class="mx-auto max-w-6xl px-6 lg:px-8">
+    <!-- Header de sección -->
+    <div class="mb-16 text-center" data-animate>
+      <span
+        class="inline-block mb-4 text-sm font-semibold tracking-widest text-cadiz-amber uppercase"
+        >Portfolio</span
+      >
+      <h2
+        class="mb-4 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl"
+      >
+        Proyectos que <span class="gradient-text"
+          >hablan por sí solos</span
+        >
+      </h2>
+      <p class="mx-auto max-w-2xl text-text-secondary">
+        Negocios reales de Cádiz que ya confían en nuestra tecnología.
+      </p>
+    </div>
+
+    <!-- Grid de Proyectos -->
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      {
+        proyectos.map((proyecto, index) => (
+          <article
+            class="glow-card group relative overflow-hidden rounded-2xl p-8 transition-all duration-500 hover:scale-[1.02]"
+            data-glow
+            data-animate
+            role="article"
+            aria-label={`Proyecto: ${proyecto.nombre}`}
+          >
+            {/* Spotlight inner glow layer */}
+            <div data-glow aria-hidden="true" />
+            {/* Tipo badge */}
+            <span class="mb-4 inline-block rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-cadiz-ocean">
+              {proyecto.tipo}
+            </span>
+
+            {/* Contenido */}
+            <h3 class="mb-2 text-xl font-bold text-text-primary">
+              {proyecto.nombre}
+            </h3>
+            <p class="mb-6 text-sm leading-relaxed text-text-secondary">
+              {proyecto.descripcion}
+            </p>
+
+            {/* Resultado */}
+            <div class="flex items-center gap-2 border-t border-white/5 pt-4">
+              <svg
+                class="h-5 w-5 text-green-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                <polyline points="16 7 22 7 22 13" />
+              </svg>
+              <span class="text-sm font-semibold text-green-400">
+                {proyecto.resultado}
+              </span>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
