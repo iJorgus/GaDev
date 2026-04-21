@@ -1,0 +1,10 @@
+# ═══════════════════════════════════════════════════════
+#  GaDev — robots.txt
+#  Configuración de rastreo para motores de búsqueda
+# ═══════════════════════════════════════════════════════
+
+User-agent: *
+Allow: /
+
+# Sitemap generado por @astrojs/sitemap
+Sitemap: https://gadev.es/sitemap-index.xml
