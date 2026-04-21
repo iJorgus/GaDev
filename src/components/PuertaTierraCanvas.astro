@@ -1,0 +1,135 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════
+ *  PuertaTierraCanvas.astro — Divisor visual
+ *  Nube de puntos Three.js de la Puerta de Tierra
+ *  Estático, a ancho completo de viewport
+ * ═══════════════════════════════════════════════════════
+ */
+---
+
+<section
+  id="puerta-tierra-divider"
+  class="relative w-full z-10 bg-black"
+  aria-label="Puerta de Tierra — Divisor decorativo"
+>
+  <!-- Fade superior (generoso para blend suave con hero) -->
+  <div
+    class="pointer-events-none absolute top-0 left-0 right-0 z-10"
+    style="height: 40%; background: linear-gradient(to bottom, #000000 0%, transparent 100%);"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Canvas -->
+  <div
+    id="puerta-canvas-container"
+    class="relative w-full"
+    style="height: clamp(250px, 40vw, 600px);"
+  >
+    <canvas id="puerta-canvas" class="w-full h-full block"></canvas>
+  </div>
+
+  <!-- Fade inferior (generoso para blend suave con servicios) -->
+  <div
+    class="pointer-events-none absolute bottom-0 left-0 right-0 z-10"
+    style="height: 40%; background: linear-gradient(to top, #030303 0%, transparent 100%);"
+    aria-hidden="true"
+  ></div>
+</section>
+
+<script>
+  import * as THREE from "three";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("puerta-canvas-container");
+    const canvas = document.getElementById("puerta-canvas") as HTMLCanvasElement;
+
+    if (!container || !canvas) return;
+
+    const scene = new THREE.Scene();
+    const fov = 75;
+    const camera = new THREE.PerspectiveCamera(
+      fov,
+      container.clientWidth / container.clientHeight,
+      0.1,
+      1000,
+    );
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+    });
+
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    let points: THREE.Points;
+
+    const loader = new THREE.TextureLoader();
+    loader.load("/img/puertatierradiv.png", (texture: THREE.Texture) => {
+      const img = texture.image as HTMLImageElement;
+      const canvasHidden = document.createElement("canvas");
+      const ctx = canvasHidden.getContext("2d")!;
+
+      canvasHidden.width = img.width;
+      canvasHidden.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      const imgData = ctx.getImageData(0, 0, img.width, img.height).data;
+
+      // Calculate scale so points fill the full viewport width
+      const cameraZ = 5;
+      const vFovRad = (fov / 2) * Math.PI / 180;
+      const visibleHeight = 2 * cameraZ * Math.tan(vFovRad);
+      const visibleWidth = visibleHeight * (container.clientWidth / container.clientHeight);
+      const scaleFactor = img.width / visibleWidth;
+
+      const vertices: number[] = [];
+      const skip = 3;
+
+      for (let y = 0; y < img.height; y += skip) {
+        for (let x = 0; x < img.width; x += skip) {
+          const index = (y * img.width + x) * 4;
+          const r = imgData[index];
+          const a = imgData[index + 3];
+
+          if (r > 80 && a > 80) {
+            const posX = (x - img.width / 2) / scaleFactor;
+            const posY = -(y - img.height / 2) / scaleFactor;
+            const posZ = (Math.random() - 0.5) * 0.1;
+            vertices.push(posX, posY, posZ);
+          }
+        }
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(vertices, 3),
+      );
+
+      const material = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.018,
+        transparent: true,
+        opacity: 0.85,
+        blending: THREE.AdditiveBlending,
+      });
+
+      points = new THREE.Points(geometry, material);
+      // Shift image: crop more top, show more bottom
+      points.position.y = 0.6;
+      scene.add(points);
+      camera.position.z = cameraZ;
+
+      renderer.render(scene, camera);
+    });
+
+    window.addEventListener("resize", () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      if (points) renderer.render(scene, camera);
+    });
+  });
+</script>
